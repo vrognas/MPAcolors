@@ -1,8 +1,8 @@
 Package: MPAcolors
-Title: What the Package Does (One Line, Title Case)
+Title: Provides color palettes used by the Swedish Medical Products Agency (MPA)
 Version: 0.0.0.9000
 Authors@R: 
-    person("Viktor", "Rognås", , "viktor.rognas@farmaci.uu.se", role = c("aut", "cre"),
+    person("Viktor", "Rognås", , "viktor.rognas@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7837-2467"))
 Description: What the package does (one paragraph).
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
