@@ -1,0 +1,48 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# MPAcolors
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of MPAcolors is to ...
+
+## Installation
+
+You can install the development version of MPAcolors from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("vrognas/MPAcolors")
+```
+
+## Examples
+
+```{r setup}
+library(MPAcolors)
+```
+
+### Complementary palette
+
+```{r comlpmetary}
+scales::show_col(mpa_palette("complementary"), cex_label = 2)
+```
+
+### Highlight palette
+
+```{r highlight}
+scales::show_col(mpa_palette("highlight"), cex_label = 2)
+```
