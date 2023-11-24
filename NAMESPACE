@@ -2,3 +2,10 @@
 
 export(mpa_color)
 export(mpa_palette)
+export(scale_color_mpa)
+export(scale_color_mpa_c)
+export(scale_colour_mpa)
+export(scale_colour_mpa_c)
+export(scale_fill_mpa)
+importFrom(ggplot2,scale_color_gradientn)
+importFrom(grDevices,colorRampPalette)
