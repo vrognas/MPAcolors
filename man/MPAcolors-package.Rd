@@ -6,7 +6,7 @@
 \alias{MPAcolors-package}
 \title{MPAcolors: Provides color palettes used by the Swedish Medical Products Agency (MPA)}
 \description{
-What the package does (one paragraph).
+Provides a comprehensive set of color palettes and ggplot2 scale functions based on the Swedish Medical Products Agency (MPA) brand colors. Includes both discrete and continuous color scales for data visualization, with palettes designed for accessibility and professional reporting.
 }
 \seealso{
 Useful links:

@@ -2,7 +2,7 @@ library(testthat)
 
 # Test 1: Function Returns All Colors When No Arguments Passed
 test_that("returns all colors when no arguments are passed", {
-  expect_length(mpa_color(), 27)
+  expect_length(mpa_color(), 27L)
 })
 
 # Test 2: Function Returns Correct Colors for Valid Arguments
@@ -11,7 +11,10 @@ test_that("returns correct colors for valid arguments", {
   expect_equal(mpa_color("mpa_blue"), expected_result)
 
   # For multiple colors
-  multiple_expected_result <- c(`mpa_blue` = "#143C64", `red_signal` = "#E6000A")
+  multiple_expected_result <- c(
+    `mpa_blue` = "#143C64",
+    `red_signal` = "#E6000A"
+  )
   expect_equal(mpa_color("mpa_blue", "red_signal"), multiple_expected_result)
 })
 

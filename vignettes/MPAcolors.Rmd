@@ -1,0 +1,269 @@
+---
+title: "Getting Started with MPAcolors"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with MPAcolors}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5,
+  out.width = "100%"
+)
+```
+
+# Introduction
+
+The MPAcolors package provides color palettes based on the Swedish Medical Products Agency (MPA) brand guidelines. This package is designed to help create consistent, professional visualizations that align with MPA's visual identity while ensuring accessibility and readability.
+
+```{r setup}
+library(MPAcolors)
+library(ggplot2)
+library(scales)
+```
+
+# Available Colors
+
+## Core MPA Colors
+
+The package includes the full spectrum of MPA brand colors, accessible through the `mpa_color()` function:
+
+```{r core-colors}
+# View all available colors
+mpa_color()
+```
+
+You can retrieve specific colors by name:
+
+```{r specific-colors}
+# Get specific colors
+mpa_color("mpa_blue", "yellow_complement", "red_signal")
+```
+
+## Color Palettes
+
+The package organizes colors into several predefined palettes suitable for different visualization needs:
+
+```{r palettes}
+# Available palettes
+palette_names <- c(
+  "mpa_blues",
+  "complementary",
+  "complementary_60",
+  "complementary_20",
+  "highlight"
+)
+
+for (pal in palette_names) {
+  cat("\\n", pal, ":\\n")
+  show_col(mpa_palette(pal), cex_label = 1.2)
+}
+```
+
+# Using MPAcolors with ggplot2
+
+## Discrete Color Scales
+
+### Basic Usage
+
+For categorical data, use `scale_color_mpa()` or `scale_fill_mpa()`:
+
+```{r discrete-basic, message=FALSE, warning=FALSE}
+# Sample data
+sample_data <- data.frame(
+  category = factor(rep(c("A", "B", "C", "D"), each = 25)),
+  value = c(
+    rnorm(25, 10, 2),
+    rnorm(25, 15, 3),
+    rnorm(25, 12, 2),
+    rnorm(25, 18, 4)
+  ),
+  group = rep(1:25, 4)
+)
+
+# Basic discrete color scale
+ggplot(sample_data, aes(x = category, y = value, fill = category)) +
+  geom_boxplot() +
+  scale_fill_mpa(palette = "complementary") +
+  labs(
+    title = "Using MPA Complementary Palette",
+    subtitle = "Discrete fill scale example"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+### Different Palettes
+
+```{r discrete-palettes}
+# Using different palettes
+p1 <- ggplot(sample_data, aes(x = category, y = value, color = category)) +
+  geom_jitter(width = 0.3, alpha = 0.7, size = 2) +
+  scale_color_mpa(palette = "mpa_blues") +
+  labs(title = "MPA Blues Palette") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+p2 <- ggplot(sample_data, aes(x = category, y = value, color = category)) +
+  geom_jitter(width = 0.3, alpha = 0.7, size = 2) +
+  scale_color_mpa(palette = "complementary_60") +
+  labs(title = "Complementary 60% Palette") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+print(p1)
+print(p2)
+```
+
+## Continuous Color Scales
+
+For continuous data, use `scale_color_mpa_c()`:
+
+```{r continuous}
+# Continuous data example
+continuous_data <- data.frame(
+  x = rep(1:10, 10),
+  y = rep(1:10, each = 10),
+  z = as.vector(outer(1:10, 1:10, function(x, y) sin(x / 2) * cos(y / 2)))
+)
+
+ggplot(continuous_data, aes(x = x, y = y, fill = z)) +
+  geom_tile() +
+  scale_fill_mpa_c(palette = "highlight") +
+  labs(
+    title = "Continuous Color Scale",
+    subtitle = "Using the highlight palette",
+    fill = "Value"
+  ) +
+  theme_minimal()
+```
+
+### Reversing Color Direction
+
+You can reverse the color order using the `direction` parameter:
+
+```{r direction}
+ggplot(continuous_data, aes(x = x, y = y, fill = z)) +
+  geom_tile() +
+  scale_fill_mpa_c(palette = "highlight", direction = -1) +
+  labs(title = "Reversed Color Direction", fill = "Value") +
+  theme_minimal()
+```
+
+# Custom Color Applications
+
+## Manual Color Selection
+
+For complete control, use `mpa_color()` with `scale_*_manual()`:
+
+```{r manual}
+# Custom color selection
+custom_colors <- c(
+  mpa_color("mpa_blue"),
+  mpa_color("yellow_complement"),
+  mpa_color("red_signal"),
+  mpa_color("green_signal")
+)
+
+ggplot(sample_data, aes(x = category, y = value, fill = category)) +
+  geom_violin(alpha = 0.7) +
+  scale_fill_manual(values = unname(custom_colors)) +
+  labs(
+    title = "Custom Color Selection",
+    subtitle = "Using manually selected MPA colors"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## Single Color Applications
+
+Use individual colors for emphasis:
+
+```{r single-color}
+ggplot(sample_data, aes(x = category, y = value)) +
+  geom_bar(
+    stat = "summary",
+    fun = "mean",
+    fill = mpa_color("mpa_blue"),
+    alpha = 0.8
+  ) +
+  labs(
+    title = "Single Color Emphasis",
+    subtitle = "Using MPA blue for all bars",
+    y = "Mean Value"
+  ) +
+  theme_minimal()
+```
+
+# Accessibility Considerations
+
+The MPA color palettes are designed with accessibility in mind:
+
+- High contrast ratios for text readability
+- Colorblind-friendly color combinations
+- Sufficient variation for distinguishing categories
+
+```{r accessibility}
+# Demonstrating color accessibility
+show_col(mpa_palette("complementary"), labels = TRUE, cex_label = 1.5, ncol = 2)
+```
+
+# Best Practices
+
+## Choosing the Right Palette
+
+- **mpa_blues**: Perfect for single-variable gradients or monochromatic themes
+- **complementary**: Best for 3-4 distinct categories
+- **complementary_60/20**: Softer variants for backgrounds or less prominent data
+- **highlight**: Ideal for emphasizing specific data points or two-category comparisons
+
+## Color Combinations
+
+```{r combinations}
+# Good practice: Limited color palette for clarity
+ggplot(
+  sample_data[sample_data$category %in% c("A", "B", "C"), ],
+  aes(x = category, y = value, fill = category)
+) +
+  geom_boxplot() +
+  scale_fill_mpa(palette = "complementary") +
+  labs(
+    title = "Limited Color Palette",
+    subtitle = "Using 3 colors for 3 categories"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+# Integration with Other Themes
+
+MPAcolors works well with various ggplot2 themes:
+
+```{r themes}
+base_plot <- ggplot(
+  sample_data,
+  aes(x = category, y = value, color = category)
+) +
+  geom_jitter(width = 0.3, alpha = 0.6, size = 1.5) +
+  scale_color_mpa(palette = "complementary") +
+  labs(title = "MPA Colors with Different Themes") +
+  theme(legend.position = "none")
+
+# With minimal theme
+print(base_plot + theme_minimal() + labs(subtitle = "theme_minimal()"))
+
+# With classic theme
+print(base_plot + theme_classic() + labs(subtitle = "theme_classic()"))
+```
+
+# Conclusion
+
+The MPAcolors package provides a robust foundation for creating professional, accessible visualizations that align with MPA brand guidelines. By following the examples and best practices outlined in this vignette, you can create compelling data visualizations that maintain visual consistency and professional appearance.
+
+For more information and updates, visit the [package repository](https://github.com/vrognas/MPAcolors).

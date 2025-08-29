@@ -1,19 +1,26 @@
 Package: MPAcolors
 Title: Provides color palettes used by the Swedish Medical Products Agency (MPA)
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person("Viktor", "Rognås", , "viktor.rognas@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7837-2467"))
-Description: What the package does (one paragraph).
+Description: Provides a comprehensive set of color palettes and ggplot2 scale 
+    functions based on the Swedish Medical Products Agency (MPA) brand colors.
+    Includes both discrete and continuous color scales for data visualization,
+    with palettes designed for accessibility and professional reporting.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    scales
 Config/testthat/edition: 3
 URL: https://github.com/vrognas/MPAcolors
 BugReports: https://github.com/vrognas/MPAcolors/issues
 Imports: 
     ggplot2,
     grDevices
+VignetteBuilder: knitr

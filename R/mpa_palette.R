@@ -13,7 +13,6 @@
 #' mpa_palette("complementary")
 #' mpa_palette("highlight")
 mpa_palette <- function(palette = "mpa_blues", ...) {
-
   mpa_palettes <- list(
     `mpa_blues` = mpa_color(
       "mpa_blue",
@@ -58,5 +57,4 @@ mpa_palette <- function(palette = "mpa_blues", ...) {
   )
 
   mpa_palettes[[palette]]
-
 }

@@ -31,9 +31,10 @@ You can install the development version of MPAcolors from [GitHub](https://githu
 devtools::install_github("vrognas/MPAcolors")
 ```
 
-## Using these colors in plots 
+## Using these colors in plots
 
-Let’s look at some examples to see the various ways these functions can be used to customize colors with ggplot2. Below is a very simple bar chart using the palmerpenguins::penguins data set.
+Let's look at some examples to see the various ways these functions can be used to customize colors with ggplot2.
+Below is a very simple bar chart using the `palmerpenguins::penguins` data set.
 
 ```{r setup}
 library(MPAcolors)
@@ -41,62 +42,74 @@ library(ggplot2)
 library(dplyr)
 ```
 
-The new mpa_color function can be used to specifically define a color. In the plot below, mpa_color("mpa_blue") is the fill argument in the geom_bar layer to make all of the bars that specific shade of mpa_blue
+The new mpa_color function can be used to specifically define a color.
+In the plot below, `mpa_color("mpa_blue")` is the fill argument in the geom_bar layer to make all of the bars that specific shade of `mpa_blue`.
 
 ```{r}
 palmerpenguins::penguins |>
-  count(species) |> 
+  count(species) |>
   ggplot(aes(x = species, y = n)) +
   geom_bar(stat = "identity", fill = mpa_color("mpa_blue")) +
   labs(title = "The count of each species in the palmerpenguins data set") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
   theme_linedraw() +
-  theme(axis.ticks = element_blank(),
-        axis.title = element_blank(),
-        panel.grid.major.x = element_blank())
+  theme(
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    panel.grid.major.x = element_blank()
+  )
 ```
 
-We could also add fill = species to the aes layer (meaning that each species will have its own color) and then use scale_fill_mpa(palette = "complementary") to automatically apply our “complementary” color palette.
+We could also add `fill = species` to the aes layer (meaning that each species will have its own color) and then use `scale_fill_mpa(palette = "complementary")` to automatically apply our "complementary" color palette.
 
 ```{r fill}
 palmerpenguins::penguins |>
-  count(species) |> 
+  count(species) |>
   ggplot(aes(x = species, y = n, fill = species)) +
   geom_bar(stat = "identity") +
   scale_fill_mpa(palette = "complementary") +
   labs(title = "The count of each species in the palmerpenguins data set") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
   theme_linedraw() +
-  theme(axis.ticks = element_blank(),
-        axis.title = element_blank(),
-        legend.position = "none",
-        panel.grid.major.x = element_blank())
+  theme(
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    legend.position = "none",
+    panel.grid.major.x = element_blank()
+  )
 ```
 
 
-Or if you want to use the custom colors but not a specific palette, add a scale_fill_manual layer and specify the values using the mpa_color function.
+Or if you want to use the custom colors but not a specific palette, add a `scale_fill_manual()` layer and specify the values using the `mpa_color()` function.
 
 ```{r custom-colors}
 palmerpenguins::penguins |>
-  count(species) |> 
+  count(species) |>
   ggplot(aes(x = species, y = n, fill = species)) +
   geom_bar(stat = "identity") +
-  scale_fill_manual(values = 
-                      unname(c(mpa_color("pink_complement_20","yellow_complement","mpa_blue_60")))) +
+  scale_fill_manual(
+    values = unname(c(mpa_color(
+      "pink_complement_20",
+      "yellow_complement",
+      "mpa_blue_60"
+    )))
+  ) +
   labs(title = "The count of each species in the palmerpenguins data set") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
   theme_linedraw() +
-  theme(axis.ticks = element_blank(),
-        axis.title = element_blank(),
-        legend.position = "none",
-        panel.grid.major.x = element_blank())
+  theme(
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    legend.position = "none",
+    panel.grid.major.x = element_blank()
+  )
 ```
 
-Lastly, below is an example of a continuous color scale, with our scale_color_mpa_c function specifying the palette to be used.
+Lastly, below is an example of a continuous color scale, with our `scale_color_mpa_c()` function specifying the palette to be used.
 
 ```{r continuous}
 palmerpenguins::penguins |>
-  filter(!is.na(sex)) |> 
+  filter(!is.na(sex)) |>
   ggplot(aes(x = sex, y = body_mass_g, color = bill_depth_mm)) +
   geom_jitter(size = 3, width = 0.3) +
   scale_color_mpa_c(palette = "highlight", direction = -1) +

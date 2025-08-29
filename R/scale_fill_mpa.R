@@ -9,10 +9,23 @@
 #' @return A ggplot2 scale object.
 #' @export
 scale_fill_mpa <- function(palette = "complementary", direction = 1, ...) {
-
   ggplot2::discrete_scale(
-    "fill", "mpa",
-    palette_gen(palette, direction),
+    "fill",
+    palette = palette_gen(palette, direction),
     ...
   )
+}
+
+#' Set Continuous Fill Scale for ggplot2 Plots
+#'
+#' Applies a continuous color gradient scale for fill aesthetics in ggplot2 plots, using predefined color palettes.
+#'
+#' @inheritParams scale_fill_mpa
+#' @return A ggplot2 scale object.
+#' @export
+#' @importFrom ggplot2 scale_fill_gradientn
+scale_fill_mpa_c <- function(palette = "highlight", direction = 1, ...) {
+  pal <- palette_gen_c(palette = palette, direction = direction)
+
+  ggplot2::scale_fill_gradientn(colors = pal(256), ...)
 }

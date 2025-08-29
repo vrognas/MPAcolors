@@ -14,32 +14,31 @@
 #'         generates a vector of `n` color values from the specified palette.
 #'         This function warns if `n` exceeds the number of colors available in the palette.
 palette_gen <- function(palette = "complementary", direction = 1) {
-
   function(n) {
+    pal <- mpa_palette(palette)
 
-    if (n > length(mpa_palette(palette)))
+    # Return NULL if palette doesn't exist
+    if (is.null(pal)) {
+      return(NULL)
+    }
+
+    if (n > length(pal)) {
       warning("Not enough colors in this palette!")
-
-    else {
-
-      all_colors <- mpa_palette(palette)
-
-      all_colors <- unname(unlist(all_colors))
+    } else {
+      all_colors <- unname(unlist(pal))
 
       all_colors <- if (direction >= 0) all_colors else rev(all_colors)
 
       color_list <- all_colors[1:n]
-
     }
   }
 }
 
-palette_gen_c <- function(palette = "main", direction = 1, ...) {
-
+#' @importFrom grDevices colorRampPalette
+palette_gen_c <- function(palette = "highlight", direction = 1, ...) {
   pal <- mpa_palette(palette)
 
   pal <- if (direction >= 0) pal else rev(pal)
 
   colorRampPalette(pal, ...)
-
 }

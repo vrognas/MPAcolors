@@ -9,10 +9,9 @@
 #' @return A ggplot2 scale object.
 #' @export
 scale_colour_mpa <- function(palette = "complementary", direction = 1, ...) {
-
   ggplot2::discrete_scale(
-    "colour", "mpa",
-    palette_gen(palette, direction),
+    "colour",
+    palette = palette_gen(palette, direction),
     ...
   )
 }
@@ -28,12 +27,11 @@ scale_color_mpa <- scale_colour_mpa
 #' @inheritParams scale_fill_mpa
 #' @return A ggplot2 scale object.
 #' @export
+#' @importFrom ggplot2 scale_color_gradientn
 scale_colour_mpa_c <- function(palette = "highlight", direction = 1, ...) {
-
   pal <- palette_gen_c(palette = palette, direction = direction)
 
   scale_color_gradientn(colors = pal(256), ...)
-
 }
 
 #' @rdname scale_colour_mpa_c
